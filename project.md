@@ -1,1 +1,1 @@
-{%boxplot_customers_affected.html%}
+{% boxplot_customers_affected.html %}
