@@ -1,1 +1,1 @@
-{% boxplot_customers_affected.html %}
+{% include boxplot_customers_affected.html %}
