@@ -1,1 +1,1 @@
-{% include figure.html %}
+{%include_relative figure.html}
