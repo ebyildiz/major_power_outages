@@ -7,7 +7,7 @@
 ></iframe>
 
 <iframe
-  src="assets/output.html"
+  src="assets/frequency_cause.html"
   width="800"
   height="600"
   frameborder="0"
