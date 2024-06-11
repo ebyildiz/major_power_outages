@@ -8,9 +8,13 @@ In an increasingly electricity-dependent world, understanding the factors contri
 
 The dataset is robust, encompassing not only the primary details of the outages, such as their geographical locations, dates, and times, but also data on regional climatic conditions, land-use characteristics, electricity consumption patterns, and economic attributes of the affected states. This multifaceted approach allows for a nuanced analysis of the factors influencing power outages and provides a fertile ground for developing predictive models to estimate demand loss based on various predictors. 
 
+The dataset is available at Purdue University’s Laboratory for Advancing Sustainable Critical Infrastructure, https://engineering.purdue.edu/LASCI/research-data/outages
+
+## Data Cleaning and Exploratory Data Analysis
+
 I will start my analysis by cleaning the data, and limiting it to only the columns I need since it contains 57 columns. Some of the columns like 'u.s._state' and 'postal.code' contain almost the same information, which can lead to multicollinearity. The same thing happens for the anomaly levels and climate category as they are highly correlated. Because of this, I will only be using one of each. For the sake of simplicity, I converted all the columns to lower case.
 
-I have also excluded columns that won't be available at the time of predicting the demand loss such as outage duration of restoration date.
+I have also excluded columns that won't be available at the time of predicting the demand loss such as outage duration or restoration date.
 
 Let's take a look at the columns:
 
@@ -45,10 +49,13 @@ Let's take a look at the columns:
 | `popden_uc` | Population density of the urban clusters (persons per square mile) |
 
 
-
-The dataset is available at Purdue University’s Laboratory for Advancing Sustainable Critical Infrastructure, https://engineering.purdue.edu/LASCI/research-data/outages
-
 By examining historical trends and patterns, the dataset facilitates a deeper understanding of the dynamics of power outages. It enables the identification and assessment of key risk factors associated with sustained power outages, thus offering valuable insights for policymakers, utility companies, and researchers. The ultimate goal of this project is to enhance the predictive capabilities concerning demand loss due to different causes of outages, thereby contributing to more resilient and responsive power systems.
+
+### Data Cleaning Process
+
+  First, I start by dropping columns that won't be necessary for my analysis. These include columns such as land area which can make my model for predicting demand loss more complicated as they are probably not as highly correlated as other columns such as cause category or state. I also wanted to get rid of columns that will not be available at the time of prediction for demand loss. These include information about how long the outage was or when it was restored since we want to predict demand loss as soon as the outage happens. Some other columns I dropped were highly correlated columns such as anomaly level and climate category to avoid multicollinearity. This was a tricky one since anomaly level is a numeric continuous data while climate category is categorical. I have come to the conclusion that it might be more beneficial to use climate category for the case of my analysis since it is more simple and anomaly level might increase the complexity of the model a little bit to high, causing too much variation.
+  After dropping these columns, I ended up with the ones I show above which are : ['year', 'month', 'u.s._state', 'nerc.region','climate.region', 'climate.category', 'outage.start.date', 'outage.start.time', 'outage.restoration.date', 'outage.restoration.time', 'cause.category', 'cause.category.detail', 'hurricane.names', 'outage.duration', 'demand.loss.mw', 'customers.affected', 'res.price', 'com.price', 'ind.price', 'total.price', 'res.sales', 'com.sales', 'ind.sales', 'total.sales', 'res.customers', 'com.customers', 'ind.customers', 'total.customers', 'pc.realgsp.state', 'pc.realgsp.usa', 'pc.realgsp.rel', 'pc.realgsp.change', 'util.realgsp', 'total.realgsp', 'population', 'popden_urban', 'popden_uc', 'popden_rural']
+ 
 
 
 <iframe
