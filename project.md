@@ -40,7 +40,7 @@ Let's take a look at the columns:
 | `ind.customers` | Annual number of customers served in the industrial electricity sector of the U.S. state |
 | `total.customers` | Annual number of total customers served in the U.S. state |
 | `pc.realgsp.state` | Per capita real gross state product (GSP) in the U.S. state |
-| ``pc.realgsp.usa`` | Per capita real GSP in the U.S. |
+| `pc.realgsp.usa` | Per capita real GSP in the U.S. |
 | `pc.realgsp.rel` | Relative per capita real GSP as compared to the total per capita real GDP of the U.S. |
 | `pc.realgsp.change` | Percentage change of per capita real GSP from the previous year (in %) |
 | `population` | Population in the U.S. state in a year |
@@ -54,7 +54,7 @@ By examining historical trends and patterns, the dataset facilitates a deeper un
 ### Data Cleaning Process
 
   First, I start by dropping columns that won't be necessary for my analysis. These include columns such as land area which can make my model for predicting demand loss more complicated as they are probably not as highly correlated as other columns such as cause category or state. I also wanted to get rid of columns that will not be available at the time of prediction for demand loss. These include information about how long the outage was or when it was restored since we want to predict demand loss as soon as the outage happens. Some other columns I dropped were highly correlated columns such as anomaly level and climate category to avoid multicollinearity. This was a tricky one since anomaly level is a numeric continuous data while climate category is categorical. I have come to the conclusion that it might be more beneficial to use climate category for the case of my analysis since it is more simple and anomaly level might increase the complexity of the model a little bit to high, causing too much variation.
-  After dropping these columns, I ended up with the ones I show above which are : ['year', 'month', 'u.s._state', 'nerc.region','climate.region', 'climate.category', 'outage.start.date', 'outage.start.time', 'outage.restoration.date', 'outage.restoration.time', 'cause.category', 'cause.category.detail', 'hurricane.names', 'outage.duration', 'demand.loss.mw', 'customers.affected', 'res.price', 'com.price', 'ind.price', 'total.price', 'res.sales', 'com.sales', 'ind.sales', 'total.sales', 'res.customers', 'com.customers', 'ind.customers', 'total.customers', 'pc.realgsp.state', 'pc.realgsp.usa', 'pc.realgsp.rel', 'pc.realgsp.change', 'util.realgsp', 'total.realgsp', 'population', 'popden_urban', 'popden_uc', 'popden_rural']
+  After dropping these columns, I ended up with the ones I show above which are : [`year`, `month`, `u.s._state`, `nerc.region`,`climate.region`, `climate.category`, `outage.start.date`, `outage.start.time`, `cause.category`, `cause.category.detail`, `hurricane.names`, `demand.loss.mw`, `customers.affected`, `res.price`, `com.price`, `ind.price`, `total.price`, `res.sales`, `com.sales`, `ind.sales`, `total.sales`, `res.customers`, `com.customers`, `ind.customers`, `total.customers`, `pc.realgsp.state`, `pc.realgsp.usa`, `pc.realgsp.rel`, `pc.realgsp.change`, `util.realgsp`, `total.realgsp`, `population`, `popden_urban`, `popden_uc`, `popden_rural`]
  
 
 
