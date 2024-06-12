@@ -282,7 +282,7 @@ I decided to use variation between mean demand loss for each state as my test st
 `P-value`: 0.046
 
 <iframe
-  src="assets/plots/output.html"
+  src="assets/plots/my_plot.html"
   width="700"
   height="500"
   frameborder="0"
