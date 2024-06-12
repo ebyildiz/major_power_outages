@@ -35,7 +35,7 @@ description:           >
   with a focus on personal sites that are meant to impress.
 
 # A shorter description for the sidebar.
-tagline:               Change `tagline` in `_config.yml`
+tagline:               DSC80 Project at UCSD
 
 # A list of keywords for your blog
 keywords:              []
@@ -295,18 +295,18 @@ hydejack:
 # Collections
 # ----------------------------------------------------------------------------------------
 
-collections:
-  featured_categories:
-    permalink:         /:name/
-    output:            true
+# collections:
+#   featured_categories:
+#     permalink:         /:name/
+#     output:            true
 
-  featured_tags:
-    permalink:         /tag-:name/
-    output:            true
+#   featured_tags:
+#     permalink:         /tag-:name/
+#     output:            true
 
-  projects:
-    permalink:         /projects/:path/
-    output:            true
+#   projects:
+#     permalink:         /projects/:path/
+#     output:            true
 
 
 # File inclusion/exclusion
