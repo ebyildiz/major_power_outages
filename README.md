@@ -286,8 +286,6 @@ I decided to use variation between mean demand loss for each state as my test st
   width="700"
   height="500"
   frameborder="0"
-  margin="0"
-  padding="0"
   style="display: block; margin: 0 auto;"
 ></iframe>
 
