@@ -116,3 +116,34 @@ Now, I want to look at whether the number of outages change over month. And it l
   style="display: block; margin: 0 auto;"
 ></iframe>
 
+### Bivariate Data Analysis
+
+<iframe
+  src="assets/plots/cause_demand.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  margin="0"
+  padding="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
+
+<iframe
+  src="assets/plots/state_demand.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  margin="0"
+  padding="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
+
+<iframe
+  src="assets/plots/month_demand.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  margin="0"
+  padding="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
