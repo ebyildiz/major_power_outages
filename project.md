@@ -79,7 +79,7 @@ I started looking at the column for climate category. I wanted to see what the f
 <iframe 
 src="assets/climate_category_frequency.html"
   width="500"
-  height="500"
+  height="400"
   frameborder="0"
   margin="0"
   padding="0"
