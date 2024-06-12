@@ -177,9 +177,115 @@ I also see a clear relationship between month and average demand loss as months 
   style="display: block; margin: 0 auto;"
 ></iframe>
 
-## NMAR Analysis
+## Missingness Analysis
+
+For this portion, I wanted to see the missingness frequency of each column. It turns out that demand loss, the column we are trying to predict, has the highest missingness count, which is followed by cause category.detail and then customers.affected.
 
 |  column |   missingness count |
 | ----------- | ----------- |
 | demand.loss.mw   | 705 |
-| cause.category.detail | 471 |\n| customers.affected    | 443 |\n| total.sales           |  22 |\n| res.sales             |  22 |\n| com.sales             |  22 |\n| ind.sales             |  22 |\n| popden_rural          |  10 |\n| popden_uc             |  10 |\n| climate.category      |   9 |\n| outage.start.date     |   9 |\n| outage.start.time     |   9 |\n| month                 |   9 |\n| popden_urban          |   0 |\n| population            |   0 |\n| year                  |   0 |\n| cause.category        |   0 |\n| nerc.region           |   0 |\n| postal.code           |   0 |\n| u.s._state            |   0 |\n| state                 |   0 |
+| cause.category.detail | 471 |
+|customers.affected    | 443 |
+| total.sales           |  22 |
+| res.sales             |  22 |
+| com.sales             |  22 |
+| ind.sales             |  22 |
+| popden_rural          |  10 |
+| popden_uc             |  10 |
+| climate.category      |   9 |
+| outage.start.date     |   9 |
+| outage.start.time     |   9 |
+| month                 |   9 |
+| popden_urban          |   0 |
+| population            |   0 |
+| year                  |   0 |
+| cause.category        |   0 |
+| nerc.region           |   0 |
+| postal.code           |   0 |
+| u.s._state            |   0 |
+
+### NMAR Analysis
+
+The demand loss column may have missing values if the data was not captured for some outages or if the calculation of demand loss was not feasible in certain cases which would be NMAR. Information about the number of customers affected by an outage may not be available for certain events or may not have been recorded accurately as well leading to all these missing values. For historical data spanning several years, older records may be less complete or have more missing values compared to recent data due to changes in data collection practices or data availability over time. 
+
+I think that cause category detail is probably not available for some cause categories, which would be missing by design, and not NMAR or MAR. But we can analyze it further in the next section.
+
+### Missingness Dependency
+
+For assessing missingness dependency, first, I wanted to see if the missingness of the demand loss column depends on the month.
+
+<iframe
+  src="assets/plots/month_missingness_demand.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  margin="0"
+  padding="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
+
+It looks like the missingness tend to increase significantly during the summer, which also has higher demand loss on average. 
+
+I also wanted to see if the missingness of demand loss possibly depends on state.
+
+<iframe
+  src="assets/plots/state_missingness_demand.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  margin="0"
+  padding="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
+
+It looks like some states definitely have more missing values for demand loss than others. We can conduct a hypothesis test to see if this missingness for demand loss actually depends on the state.
+
+#### Testing if the missingess of demand loss depends on State
+
+`Null Hypothesis` : The missingess of the column `demand.loss.mw` does not depend on the state column `u.s._state`
+
+`Alternative Hypothesis` : The missingess of the column `demand.loss.mw` depends on the state column `u.s._state`
+
+I decided to use *TVD* as my test statistic since state is a categorical variable.
+
+`Significane Level` : 0.05
+
+##### *Results*
+
+`Observed TVD` : 8.742915732354533
+`P-value` : 0.0
+
+<iframe
+  src="assets/plots/state_missingness_demand_test.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  margin="0"
+  padding="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
+
+Looking at the results, with a significance level of 0.05, we can reject the null hypothesis that the missing value of demand loss is independent from the state column. This result suggests that the missingness of demand loss might actually be MAR rather than NMAR.
+
+## Hypothesis Testing
+
+In this section, I will be testing if the demand loss changes significantly depending on the cause.category. This will help me determine if the cause category is actually an important variable to use in my baseline/final model of prediction.
+
+`Null Hypothesis` : The column `demand.loss.mw` does not depend on the column `cause.category`
+
+`Alternative Hypothesis` : The column `demand.loss.mw` changes significantly for values in `cause.category`
+
+I decided to use *TVD* as my test statistic since state is a categorical variable.
+
+`Significane Level` : 0.05
+
+
+<iframe
+  src="assets/plots/output.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  margin="0"
+  padding="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
