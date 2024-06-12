@@ -1,6 +1,5 @@
 # Predicting Demand Loss in Major Power Outages in Different States
-
-### by Elif Yildiz
+### *by Elif Yildiz*
 
 ## Introduction
 
