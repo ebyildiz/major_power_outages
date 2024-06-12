@@ -24,25 +24,17 @@ Let's take a look at the columns:
 | `month` | Indicates the month when the outage event occurred |
 | `u.s._state` | State the outage occured in |
 | `nerc.region` | The North American Electric Reliability Corporation (NERC) regions involved in the outage event |
-| `anomaly.level` | This represents the oceanic El Niño/La Niña (ONI) index referring to the cold and warm episodes by season. (as it goes down it's colder) |
+| `climate.category` | Climate category as warm, cold or normal and episodes of the climate are based on a threshold of ± 0.5 °C for the Oceanic Niño Index (ONI) |
 | `outage.start.date` | Date of when the outage has started |
 | `outage.start.time` | Time of when the outage has started |
 | `cause.category` | The general cause of the outage |
 | `cause.category.detail` | The detailed cause of the outage |
-| `hurricane.names` | If the outage is due to a hurricane, then the hurricane name is given by this variable |
 | `demand.loss.mw` | Amount of peak demand lost during an outage event (in Megawatt) [but in many cases, total demand is reported] This is also the columns we want to predict |
 | `customers.affected` | Number of customers affected by the power outage event |
+| `res.sales`	| Electricity consumption in the residential sector (megawatt-hour) |
 | `com.sales`	| Electricity consumption in the commercial sector (megawatt-hour) |
 | `ind.sales`	| Electricity consumption in the industrial sector (megawatt-hour) |
 | `total.sales`| Total electricity consumption in the U.S. state (megawatt-hour) |
-| `res.customers` | Annual number of customers served in the residential electricity sector of the U.S. state |
-| `com.customers` | Annual number of customers served in the commercial electricity sector of the U.S. state |
-| `ind.customers` | Annual number of customers served in the industrial electricity sector of the U.S. state |
-| `total.customers` | Annual number of total customers served in the U.S. state |
-| `pc.realgsp.state` | Per capita real gross state product (GSP) in the U.S. state |
-| `pc.realgsp.usa` | Per capita real GSP in the U.S. |
-| `pc.realgsp.rel` | Relative per capita real GSP as compared to the total per capita real GDP of the U.S. |
-| `pc.realgsp.change` | Percentage change of per capita real GSP from the previous year (in %) |
 | `population` | Population in the U.S. state in a year |
 | `popden_urban` | Population density of the urban areas (persons per square mile) |
 | `popden_rural` | Population density of the rural areas (persons per square mile) |
@@ -54,7 +46,18 @@ By examining historical trends and patterns, the dataset facilitates a deeper un
 ### Data Cleaning Process
 
   First, I start by dropping columns that won't be necessary for my analysis. These include columns such as land area which can make my model for predicting demand loss more complicated as they are probably not as highly correlated as other columns such as cause category or state. I also wanted to get rid of columns that will not be available at the time of prediction for demand loss. These include information about how long the outage was or when it was restored since we want to predict demand loss as soon as the outage happens. Some other columns I dropped were highly correlated columns such as anomaly level and climate category to avoid multicollinearity. This was a tricky one since anomaly level is a numeric continuous data while climate category is categorical. I have come to the conclusion that it might be more beneficial to use climate category for the case of my analysis since it is more simple and anomaly level might increase the complexity of the model a little bit to high, causing too much variation.
-  After dropping these columns, I ended up with the ones I show above which are : [`year`, `month`, `u.s._state`, `nerc.region`,`climate.region`, `climate.category`, `outage.start.date`, `outage.start.time`, `cause.category`, `cause.category.detail`, `hurricane.names`, `demand.loss.mw`, `customers.affected`, `res.price`, `com.price`, `ind.price`, `total.price`, `res.sales`, `com.sales`, `ind.sales`, `total.sales`, `res.customers`, `com.customers`, `ind.customers`, `total.customers`, `pc.realgsp.state`, `pc.realgsp.usa`, `pc.realgsp.rel`, `pc.realgsp.change`, `util.realgsp`, `total.realgsp`, `population`, `popden_urban`, `popden_uc`, `popden_rural`]
+
+  Additionally, I dropped columns that I don't think would be as relevant to my analysis such as the hurricane type which also had a lot of missing values since most of the outages are not caused by hurricanes.
+  
+  After dropping these columns, I ended up with the ones I show above which are : [`year`, `month`, `u.s._state`, `nerc.region`, `climate.category`, `outage.start.date`, `outage.start.time`, `cause.category`, `cause.category.detail`,  `demand.loss.mw`, `customers.affected`, `res.sales`, `com.sales`, `ind.sales`, `total.sales`, `population`, `popden_urban`, `popden_uc`, `popden_rural`]
+
+  I also wanted to combine the columns outage start date and time as one series with dtype timestamp object in `outage.start` column. I dropped the other columns since I will not need them anymore.
+
+  As I was looking at the dataset, I have realized that demand loss and customers affected had a lot of 0 values. Since this cannot be possible, I decided to change them with nan values. After that, I also dropped the rows where demand loss had missing values because it is the column I am trying to predict and missing values can mess with my model.
+
+  Here is a sample of the dataset:
+
+  |   OBS |   year |   month | u.s._state   | nerc.region   | climate.category   | outage.start.date           | outage.start.time   | cause.category                | cause.category.detail   |   demand.loss.mw |   customers.affected |   res.sales |   com.sales |   ind.sales |   total.sales |   population |   popden_urban |   popden_uc |   popden_rural |\n|------:|-------:|--------:|:-------------|:--------------|:-------------------|:----------------------------|:--------------------|:------------------------------|:------------------------|-----------------:|---------------------:|------------:|------------:|------------:|--------------:|-------------:|---------------:|------------:|---------------:|\n|   624 |   2011 |      10 | Pennsylvania | RFC           | cold               | Tuesday, October 18, 2011   | 3:45:00 AM          | intentional attack            | vandalism               |                0 |                    0 | 3.61972e+06 | 3.47153e+06 | 4.13196e+06 |   1.12879e+07 |     12745202 |         2123.4 |      1528.6 |           67.7 |\n|  1226 |   2015 |       6 | California   | WECC          | warm               | Saturday, June 20, 2015     | 1:52:00 PM          | intentional attack            | vandalism               |              nan |                    0 | 7.19206e+06 | 9.94213e+06 | 4.69385e+06 |   2.19015e+07 |     39144818 |         4303.7 |      2124.1 |           12.7 |\n|  1176 |   2010 |       1 | California   | WECC          | warm               | Wednesday, January 20, 2010 | 1:00:00 PM          | severe weather                | storm                   |              nan |               147223 | 7.62945e+06 | 9.0208e+06  | 3.53787e+06 |   2.0256e+07  |     37334079 |         4303.7 |      2124.1 |           12.7 |\n|   705 |   2013 |       7 | Ohio         | RFC           | normal             | Wednesday, July 10, 2013    | 5:30:00 PM          | severe weather                | thunderstorm            |              nan |               122314 | 5.1172e+06  | 4.40552e+06 | 4.39368e+06 |   1.39192e+07 |     11572232 |         2033.7 |      1740.1 |           69.9 |\n|  1230 |   2008 |       7 | California   | WECC          | normal             | Wednesday, July 2, 2008     | 7:16:00 PM          | severe weather                | wildfire                |              208 |               200000 | 9.33413e+06 | 1.2179e+07  | 4.70113e+06 |   2.62885e+07 |     36604337 |         4303.7 |      2124.1 |           12.7 |\n|   640 |   2015 |       6 | Kentucky     | SERC          | warm               | Monday, June 1, 2015        | 12:27:00 AM         | intentional attack            | vandalism               |                2 |                  110 | 2.20099e+06 | 1.67262e+06 | 2.56922e+06 |   6.44283e+06 |      4425092 |         1795.8 |      1351.7 |           47.4 |\n|  1093 |   2010 |       9 | California   | WECC          | cold               | Monday, September 27, 2010  | 3:15:00 PM          | system operability disruption | nan                     |              595 |                  nan | 8.25382e+06 | 1.1236e+07  | 4.43606e+06 |   2.39959e+07 |     37334079 |         4303.7 |      2124.1 |           12.7 |
  
 
 
