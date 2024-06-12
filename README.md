@@ -118,6 +118,25 @@ Now, I want to look at whether the number of outages change over month. And it l
 
 ### Bivariate Data Analysis
 
+For my bivariate analysis, I wanted to look at customers affected by month, to see if there will be the same pattern as number of outages per month. And there were. There are more customers affected during summer than any other month.
+
+<iframe
+  src="assets/plots/month_customer.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  margin="0"
+  padding="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
+
+
+### Groupby and Aggregate
+First, I look at the relationship between cause category and demand. I groupby the cause category, aggregate by the mean of demand loss using
+
+`df.groupby('cause.category')['demand.loss.mw'].mean().reset_index()`
+
+It looks like the overall mean for demand loss is way higher for public appeal. And it looks like demand loss significantly varies between different categories.
 <iframe
   src="assets/plots/cause_demand.html"
   width="700"
@@ -127,6 +146,12 @@ Now, I want to look at whether the number of outages change over month. And it l
   padding="0"
   style="display: block; margin: 0 auto;"
 ></iframe>
+
+Then, I used the same process for state but by using postal code instead for the sake of plotting my graph:
+
+`demand_loss_by_state = df.groupby('postal.code')['demand.loss.mw'].mean().reset_index()`
+
+It looks like the average demand loss is the highest for Massachusetts.
 
 <iframe
   src="assets/plots/state_demand.html"
@@ -138,6 +163,10 @@ Now, I want to look at whether the number of outages change over month. And it l
   style="display: block; margin: 0 auto;"
 ></iframe>
 
+I also see a clear relationship between month and average demand loss as months from July to December has a much lower demand loss on average. This indicates that it can be useful for predicting demand loss.
+
+`demand_loss_by_cause = ex.groupby('month')['demand.loss.mw'].mean().reset_index()`
+
 <iframe
   src="assets/plots/month_demand.html"
   width="700"
@@ -147,3 +176,10 @@ Now, I want to look at whether the number of outages change over month. And it l
   padding="0"
   style="display: block; margin: 0 auto;"
 ></iframe>
+
+## NMAR Analysis
+
+|  column |   missingness count |
+| ----------- | ----------- |
+| demand.loss.mw   | 705 |
+| cause.category.detail | 471 |\n| customers.affected    | 443 |\n| total.sales           |  22 |\n| res.sales             |  22 |\n| com.sales             |  22 |\n| ind.sales             |  22 |\n| popden_rural          |  10 |\n| popden_uc             |  10 |\n| climate.category      |   9 |\n| outage.start.date     |   9 |\n| outage.start.time     |   9 |\n| month                 |   9 |\n| popden_urban          |   0 |\n| population            |   0 |\n| year                  |   0 |\n| cause.category        |   0 |\n| nerc.region           |   0 |\n| postal.code           |   0 |\n| u.s._state            |   0 |\n| state                 |   0 |
