@@ -55,7 +55,7 @@ By examining historical trends and patterns, the dataset facilitates a deeper un
 
   As I was looking at the dataset, I have realized that demand loss and customers affected had a lot of 0 values. Since this cannot be possible, I decided to change them with nan values. After that, I also dropped the rows where demand loss had missing values because it is the column I am trying to predict and missing values can mess with my model.
 
-  Here is a sample of the dataset:
+  Here is a small sample of the dataset to get an idea of what we are dealing with:
 
 |   OBS |   year |   month | u.s._state   | nerc.region   | climate.category   | outage.start.date            | outage.start.time   | cause.category                | cause.category.detail   |   demand.loss.mw |   customers.affected |        res.sales |        com.sales |        ind.sales |      total.sales |   population |   popden_urban |   popden_uc |   popden_rural |
 |------:|-------:|--------:|:-------------|:--------------|:-------------------|:-----------------------------|:--------------------|:------------------------------|:------------------------|-----------------:|---------------------:|-----------------:|-----------------:|-----------------:|-----------------:|-------------:|---------------:|------------:|---------------:|
@@ -70,15 +70,43 @@ By examining historical trends and patterns, the dataset facilitates a deeper un
 |   415 |   2015 |      12 | Washington   | WECC          | warm               | Wednesday, December 9, 2015  | 4:00:00 AM          | severe weather                | nan                     |              115 |                76300 |      3.89241e+06 |      2.67147e+06 |      2.02896e+06 |      8.59335e+06 |      7170351 |         2380   |      1487.9 |           16.7 |
 |   891 |   2013 |       5 | Delaware     | RFC           | normal             | Friday, May 17, 2013         | 8:35:00 AM          | intentional attack            | vandalism               |              nan |                  nan | 282332           | 350320           | 240615           | 873267           |       925353 |         1838.3 |      1083   |           97.3 |
 
+
+## Exploratory Data Analysis
+
+### Univariate Data Analysis
+
+I started looking at the column for climate category. I wanted to see what the frequency of outages are for each category. And it looks like normal climate category has the most frequency, followed by cold climate.
+
 <iframe
-  src="assets/figure.html"
+  src="assets/climate_category_frequency.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 
+Then, I wanted to look at the cause category frequencies for each cause. 
+
 <iframe
-  src="assets/frequency_cause.html"
+  src="assets/cause_category_frequency.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+Seeing that the severe weather have the highest frequency, I wanted to see which cause detail has the highest frequency for only the cause of severe weather. And it turns out to be thunderstorms. 
+
+<iframe
+  src="assets/cause_category_detail.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+Now, I want to look at whether the number of outages change over month. And it looks like most outages occur during summer. This might be due to air conditioning units drawing a significant amount of power, contributing to spikes in electricity demand during hot weather. The sudden increase in demand can exceed the capacity of the electrical infrastructure, leading to outages or brownouts.
+
+<iframe
+  src="assets/outage_per_month.html"
   width="800"
   height="600"
   frameborder="0"
