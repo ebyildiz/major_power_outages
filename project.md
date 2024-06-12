@@ -83,9 +83,7 @@ I started looking at the column for climate category. I wanted to see what the f
   height="600"
   frameborder="0"
   style="margin: 0; padding: 0;"
-></iframe>
-
-Then, I wanted to look at the cause category frequencies for each cause. 
+></iframe> Then, I wanted to look at the cause category frequencies for each cause. 
 
 <iframe
   src="assets/cause_category_frequency.html"
@@ -93,9 +91,7 @@ Then, I wanted to look at the cause category frequencies for each cause.
   height="600"
   frameborder="0"
   style="margin: 0; padding: 0;"
-></iframe>
-
-Seeing that the severe weather have the highest frequency, I wanted to see which cause detail has the highest frequency for only the cause of severe weather. And it turns out to be thunderstorms. 
+></iframe> Seeing that the severe weather have the highest frequency, I wanted to see which cause detail has the highest frequency for only the cause of severe weather. And it turns out to be thunderstorms. 
 
 <iframe
   src="assets/cause_category_detail.html"
@@ -103,9 +99,7 @@ Seeing that the severe weather have the highest frequency, I wanted to see which
   height="600"
   frameborder="0"
   style="margin: 0; padding: 0;"
-></iframe>
-
-Now, I want to look at whether the number of outages change over month. And it looks like most outages occur during summer. This might be due to air conditioning units drawing a significant amount of power, contributing to spikes in electricity demand during hot weather. The sudden increase in demand can exceed the capacity of the electrical infrastructure, leading to outages or brownouts. 
+></iframe> Now, I want to look at whether the number of outages change over month. And it looks like most outages occur during summer. This might be due to air conditioning units drawing a significant amount of power, contributing to spikes in electricity demand during hot weather. The sudden increase in demand can exceed the capacity of the electrical infrastructure, leading to outages or brownouts. 
 
 <iframe
   src="assets/outages_per_month.html"
