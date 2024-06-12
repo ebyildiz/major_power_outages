@@ -8,7 +8,7 @@ In an increasingly electricity-dependent world, understanding the factors contri
 
 The dataset is robust, encompassing not only the primary details of the outages, such as their geographical locations, dates, and times, but also data on regional climatic conditions, land-use characteristics, electricity consumption patterns, and economic attributes of the affected states. This multifaceted approach allows for a nuanced analysis of the factors influencing power outages and provides a fertile ground for developing predictive models to estimate demand loss based on various predictors. 
 
-The dataset is available at Purdue University’s Laboratory for Advancing Sustainable Critical Infrastructure, https://engineering.purdue.edu/LASCI/research-data/outages
+The dataset is available at Purdue University’s Laboratory for Advancing Sustainable Critical Infrastructure, [link to dataset](https://engineering.purdue.edu/LASCI/research-data/outages)
 
 ## Data Cleaning and Exploratory Data Analysis
 
