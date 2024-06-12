@@ -76,33 +76,26 @@ By examining historical trends and patterns, the dataset facilitates a deeper un
 ### Univariate Data Analysis
 
 I started looking at the column for climate category. I wanted to see what the frequency of outages are for each category. And it looks like normal climate category has the most frequency, followed by cold climate.
-
 <iframe
   src="assets/climate_category_frequency.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
-Then, I wanted to look at the cause category frequencies for each cause. 
-
-<iframe
+Then, I wanted to look at the cause category frequencies for each cause. <iframe
   src="assets/cause_category_frequency.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
-Seeing that the severe weather have the highest frequency, I wanted to see which cause detail has the highest frequency for only the cause of severe weather. And it turns out to be thunderstorms. 
-
-<iframe
+Seeing that the severe weather have the highest frequency, I wanted to see which cause detail has the highest frequency for only the cause of severe weather. And it turns out to be thunderstorms. <iframe
   src="assets/cause_category_detail.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
-Now, I want to look at whether the number of outages change over month. And it looks like most outages occur during summer. This might be due to air conditioning units drawing a significant amount of power, contributing to spikes in electricity demand during hot weather. The sudden increase in demand can exceed the capacity of the electrical infrastructure, leading to outages or brownouts.
-
-<iframe
-  src="assets/outage_per_month.html"
+Now, I want to look at whether the number of outages change over month. And it looks like most outages occur during summer. This might be due to air conditioning units drawing a significant amount of power, contributing to spikes in electricity demand during hot weather. The sudden increase in demand can exceed the capacity of the electrical infrastructure, leading to outages or brownouts. <iframe
+  src="assets/outages_per_month.html"
   width="800"
   height="600"
   frameborder="0"
