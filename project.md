@@ -82,6 +82,7 @@ I started looking at the column for climate category. I wanted to see what the f
   width="800"
   height="600"
   frameborder="0"
+  margin="0"
 ></iframe>
 
 
@@ -92,6 +93,7 @@ Then, I wanted to look at the cause category frequencies for each cause.
   width="800"
   height="600"
   frameborder="0"
+  margin="0"
 ></iframe>
 
 
@@ -102,6 +104,7 @@ Seeing that the severe weather have the highest frequency, I wanted to see which
   width="800"
   height="600"
   frameborder="0"
+  margin="0"
 ></iframe>
 
 
@@ -112,4 +115,5 @@ Now, I want to look at whether the number of outages change over month. And it l
   width="800"
   height="600"
   frameborder="0"
+  margin="0"
 ></iframe>
