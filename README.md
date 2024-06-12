@@ -275,10 +275,11 @@ In this section, I will be testing if the demand loss changes significantly depe
 
 `Alternative Hypothesis` : The column `demand.loss.mw` changes significantly for values in `cause.category`
 
-I decided to use *TVD* as my test statistic since state is a categorical variable.
+I decided to use variation between mean demand loss for each state as my test statistic since state is a categorical variable. 
 
 `Significane Level` : 0.05
-
+`Observed Statistic`: 275631.52903857484
+`P-value`: 0.046
 
 <iframe
   src="assets/plots/output.html"
@@ -289,3 +290,7 @@ I decided to use *TVD* as my test statistic since state is a categorical variabl
   padding="0"
   style="display: block; margin: 0 auto;"
 ></iframe>
+
+With the given results, I reject the null hypothesis that the demand loss column does not depend on cause category. That means cause category will be a useful variable for predicting demand loss in my model.
+
+
