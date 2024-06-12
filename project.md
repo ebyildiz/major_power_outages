@@ -78,8 +78,8 @@ By examining historical trends and patterns, the dataset facilitates a deeper un
 I started looking at the column for climate category. I wanted to see what the frequency of outages are for each category. And it looks like normal climate category has the most frequency, followed by cold climate.
 <iframe 
 src="assets/climate_category_frequency.html"
-  width="800"
-  height="600"
+  width="500"
+  height="500"
   frameborder="0"
   margin="0"
   padding="0"
@@ -88,7 +88,7 @@ Then, I wanted to look at the cause category frequencies for each cause.
 <iframe
   src="assets/cause_category_frequency.html"
   width="800"
-  height="600"
+  height="800"
   frameborder="0"
   margin="0"
   padding="0"
