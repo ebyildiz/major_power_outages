@@ -88,8 +88,8 @@ src="assets/climate_category_frequency.html"
 Then, I wanted to look at the cause category frequencies for each cause.
 <iframe
   src="assets/cause_category_frequency.html"
-  width="800"
-  height="800"
+  width="600"
+  height="600"
   frameborder="0"
   margin="0"
   padding="0"
@@ -108,8 +108,8 @@ Seeing that the severe weather have the highest frequency, I wanted to see which
 Now, I want to look at whether the number of outages change over month. And it looks like most outages occur during summer. This might be due to air conditioning units drawing a significant amount of power, contributing to spikes in electricity demand during hot weather. The sudden increase in demand can exceed the capacity of the electrical infrastructure, leading to outages or brownouts. 
 <iframe
   src="assets/outages_per_month.html"
-  width="800"
-  height="600"
+  width="700"
+  height="500"
   frameborder="0"
   margin="0"
   padding="0"
