@@ -290,4 +290,43 @@ I decided to use variation between mean demand loss for each state as my test st
 
 With the given results, I reject the null hypothesis that the demand loss column does not depend on cause category. That means cause category will be a useful variable for predicting demand loss in my model.
 
+## Framing A Prediction Problem
+
+In this project, my ultimate goal was to make meaningful analysis and find useful variables for my predictive model. I want to predict the demand loss with columns that I have, which is a regression problem since demand loss column is a continuous numerical variable. I already got rid of the columns that we wouldn't know at the time of prediction such as outage.duration and outage restoration date. This is because we want to be able to predict demand loss before the outage has been resolved. A variable I was concerned to include in my model was `customers.affected`. At the time of prediction, I'm not sure how well the data for customers affected would be collected. But at the same time, it is a very useful variable to include in the model since more customers affected means more demand loss. 
+
+While unexpected events (e.g., natural disasters) may temporarily disrupt data reporting, measures are in place to quickly restore reporting capabilities, minimizing potential disruptions to data availability. Historical data trends indicate that outage incidents and their impacts on customer populations are predictable to a reasonable extent, allowing for reliable forecasting of 'customers.affected' at future time points. This is why I decided to keep this column in my predictive model.
+
+I ended up with the columns I showed above with a number of 19 features available for me to use in the model.
+
+### Baseline Model
+
+I tried a lot of things before I came up with this baseline model. I tried using Linear Regression starting with the columns `u.s._state`, `cause.category`, `year`, `month`, and some other columns. But it ended up with terrible R^2 scores for the test set. Then, I decided to use the Random Forest Regressor with additional columns:
+`popden_urban`, `nerc.region`, `popden_rural`, `climate.category`, `popden_uc`, `res.sales`, `com.sales`, `ind.sales`, `customers.affected`, `total.sales`. 
+
+I also used a split of 0.75 for training data and 0.25 for testing data.
+
+| Categorical Value | Columns |
+------|-------|
+| Nominal | ['u.s._state', 'cause.category', 'month', 'nerc.region', 'climate.category'] |
+| Ordinal | ['month'] |
+
+| Numerical Value | Columns |
+------|-------|
+| Discrete | ['year', 'res.sales', 'com.sales', 'ind.sales', 'customers.affected', 'total.sales'] |
+| Continuous | ['popden_rural', 'popden_uc'] |
+
+Here is the graph of predicted Demand Loss vs the actual Demand Loss:
+
+<iframe
+  src="assets/plots/baseline.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
+
+With this model, I got an R^2 score of 0.467203651163854 for the training model, and 0.6291375895945267 for testing model. But a problem is that this scores keeps changing everytime I do a prediction. This model is not stable enough and I think it is because demand los has so many missing values. After dropping demand.loss.mw with missing values, we lose half of that data and valuable information and y_test becomes really small. Because of this, in my final model, I will try to impute the data in demand loss to see if the model will improve at all.
+
+### Final Model
+
 
