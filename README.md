@@ -365,6 +365,35 @@ My model has not improved a lot, but I think this is mostly due to the fact that
 
 ### Fairness Model
 
+I realized that most of the outages are due to severe weather than other categories. This means that we have less data for other causes and our model might not work as good with them. I wanted to see the difference between the RMSEs for each group: where `cause.category` is equal to 'severe weather' or not. I used permutation testing with a 1000 permutations.
+
+RMSE for severe weather: 1050.5669936991242
+RMSE for not severe weather: 1118.1947998381281
+Observed Difference: 67.62780613900395 
+
+Let's see if this difference is significant. (if our model performs better for severe weather related outages)
+
+`Null Hypothesis` : The difference between the RMSE scores of two groups is not significant, and random
+
+`Alternative Hypothesis` : The difference between the RMSE scores of two groups is significant, and not random
+
+`Significane Level` : 0.05
+
+P-value: 0.461
+
+With the given p-value, we fail to reject the null. Our model is fair for both groups.
+
+<iframe
+  src="assets/plots/fairness.html"
+  width="700"
+  height="500"
+  frameborder="0"
+  style="display: block; margin: 0 auto;"
+></iframe>
+
+
+
+
 
 
 
