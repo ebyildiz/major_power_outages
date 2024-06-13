@@ -1,5 +1,5 @@
 # Predicting Demand Loss in Major Power Outages in Different States
-### *by Elif Yildiz*
+*by Elif Yildiz*
 
 ## Introduction
 
@@ -296,24 +296,26 @@ In this project, my ultimate goal was to make meaningful analysis and find usefu
 
 While unexpected events (e.g., natural disasters) may temporarily disrupt data reporting, measures are in place to quickly restore reporting capabilities, minimizing potential disruptions to data availability. Historical data trends indicate that outage incidents and their impacts on customer populations are predictable to a reasonable extent, allowing for reliable forecasting of 'customers.affected' at future time points. This is why I decided to keep this column in my predictive model.
 
-I ended up with the columns I showed above with a number of 19 features available for me to use in the model.
+I ended up with the columns I showed above with a number of 19 features available for me to use in the model. Of course, I'm not going to be using all of them to prevent overfitting. But I want to start by experimenting with some of them to see how they perform but also make sense when predicting the demand loss. 
+
+I also want to mention the fact that demand loss column has 700 missing values, meaning that I will have to drop the half of the dataset, which will inevitably affet the performance of my model.
 
 ### Baseline Model
 
 I tried a lot of things before I came up with this baseline model. I tried using Linear Regression starting with the columns `u.s._state`, `cause.category`, `year`, `month`, and some other columns. But it ended up with terrible R^2 scores for the test set. Then, I decided to use the Random Forest Regressor with additional columns:
-`popden_urban`, `nerc.region`, `popden_rural`, `climate.category`, `popden_uc`, `res.sales`, `com.sales`, `ind.sales`, `customers.affected`, `total.sales`. 
+`nerc.region`, `climate.category`, `customers.affected`, `total.sales`, `outage.start`. Additionally, I added an extra column from the `outage.start` column I created called `outage_period_of_day` which indicates whether the outage started in the morning, afternoon, or night. I wanted to add this column because I assumed that probably most outages occur at night, and this might cause the demand loss to be higher when an outage started at night.
 
 I also used a split of 0.75 for training data and 0.25 for testing data.
 
 | Categorical Value | Columns |
 ------|-------|
-| Nominal | ['u.s._state', 'cause.category', 'month', 'nerc.region', 'climate.category'] |
+| Nominal | ['u.s._state', 'cause.category', 'month', 'nerc.region', 'climate.category', 'outage_period_of_date'] |
 | Ordinal | ['month'] |
 
 | Numerical Value | Columns |
 ------|-------|
 | Discrete | ['year', 'res.sales', 'com.sales', 'ind.sales', 'customers.affected', 'total.sales'] |
-| Continuous | ['popden_rural', 'popden_uc'] |
+| Continuous | ['popden_rural', 'popden_uc', 'outage.start'] |
 
 Here is the graph of predicted Demand Loss vs the actual Demand Loss:
 
@@ -325,8 +327,12 @@ Here is the graph of predicted Demand Loss vs the actual Demand Loss:
   style="display: block; margin: 0 auto;"
 ></iframe>
 
-With this model, I got an R^2 score of 0.467203651163854 for the training model, and 0.6291375895945267 for testing model. But a problem is that this scores keeps changing everytime I do a prediction. This model is not stable enough and I think it is because demand los has so many missing values. After dropping demand.loss.mw with missing values, we lose half of that data and valuable information and y_test becomes really small. Because of this, in my final model, I will try to impute the data in demand loss to see if the model will improve at all.
+With this model, I got an R^2 score of 0.7162763084156837 for training model and 0.3112032565518935 for testing model. It looks like the data overfits the training model and performs poorly on the testing model.
 
 ### Final Model
+
+Seeing that my baseline model overfit the training set, I decided to use a more robust model, Lasso. However, with this model, I got an R^2 of 0.21747907115757725 for the training set and 0.09967237171570309 for the testing set. Right now, the model significantly underfits the data. 
+
+Instead, I just decied to keep my original model, and add more features by transforming numeric columns with StandardScaler and QuantileTransformer. I also decided to use Grid Search for choosing the best hyperparameters and K-Cross Fold Validation to
 
 
