@@ -298,14 +298,24 @@ While unexpected events (e.g., natural disasters) may temporarily disrupt data r
 
 I ended up with the columns I showed above with a number of 19 features available for me to use in the model. Of course, I'm not going to be using all of them to prevent overfitting. But I want to start by experimenting with some of them to see how they perform but also make sense when predicting the demand loss. 
 
-I also want to mention the fact that demand loss column has 700 missing values, meaning that I will have to drop the half of the dataset, which will inevitably affet the performance of my model.
+I also want to mention the fact that demand loss column has 700 missing values, meaning that I will have to drop the half of the dataset, which will inevitably affect the performance of my model. Because of this, I used a split of 0.9 to 0.1 training-testing data. I know this has short-comings like overfitting the training data. However, otherwise the model won't have enough data to train with, therefore, won't be able to predict the testing data well enough.
 
 ### Baseline Model
 
-I tried a lot of things before I came up with this baseline model. I tried using Linear Regression starting with the columns `u.s._state`, `cause.category`, `year`, `month`, and some other columns. But it ended up with terrible R^2 scores for the test set. Then, I decided to use the Random Forest Regressor with additional columns:
-`nerc.region`, `climate.category`, `customers.affected`, `total.sales`, `outage.start`. Additionally, I added an extra column from the `outage.start` column I created called `outage_period_of_day` which indicates whether the outage started in the morning, afternoon, or night. I wanted to add this column because I assumed that probably most outages occur at night, and this might cause the demand loss to be higher when an outage started at night.
+I decided to include almost all the columns from above because I think they have meaningful correlations with the demand loss variable. We can see in my previous graphs that demand loss had a clear relationship with cause category, state, and month columns. 
 
-I also used a split of 0.75 for training data and 0.25 for testing data.
+#### Why Are these features valuable?
+
++ Urban areas with high population density might have different demand patterns and vulnerability to outages compared to rural areas. High population density could lead to higher demand and potentially greater demand loss during an outage. So I decided to include population density for rural, urban and uc.
+
++ The North American Electric Reliability Corporation (NERC) regions have different grid infrastructures, regulatory environments, and susceptibility to different types of outages. Regional differences can impact the severity and duration of outages, and hence the demand loss.
+
++ Climate affects both the frequency of outages (e.g., more storms in certain climates) and the demand patterns (e.g., higher demand in hot climates due to air conditioning). Climate can thus be a crucial factor in predicting demand loss.
+
++ The amount of electricity sold to residential customers can indicate the level of residential demand. Higher residential sales might correlate with higher potential demand loss during outages affecting residential areas. Commercial sales indicate the electricity consumption by businesses. Outages in commercial areas can result in significant demand loss, especially during business hours. Industrial sales also represents electricity consumption by manufacturing and other industrial activities. Outages in industrial areas can lead to substantial demand loss, particularly if the industry is energy-intensive. Total electricity sales give an overall picture of electricity demand. High total sales could mean greater potential for demand loss during outages, as there’s more consumption that can be disrupted.
+
+I tried a lot of things before I came up with this baseline model. I tried using Linear Regression starting with the columns `u.s._state`, `cause.category`, `year`, `month`, and some other columns. But it ended up with terrible R^2 scores for the test set. Then, I decided to use the Random Forest Regressor with additional columns:
+`nerc.region`, `climate.category`, `customers.affected`, `total.sales`, `res.sales`, `com.sales`, `ind.sales`, `outage.start`. Additionally, I added an extra column from the `outage.start` column I created called `outage_period_of_day` which indicates whether the outage started in the morning, afternoon, or night. I wanted to add this column because I assumed that probably most outages occur at night, and this might cause the demand loss to be higher when an outage started at night.
 
 | Categorical Value | Columns |
 ------|-------|
@@ -327,12 +337,34 @@ Here is the graph of predicted Demand Loss vs the actual Demand Loss:
   style="display: block; margin: 0 auto;"
 ></iframe>
 
-With this model, I got an R^2 score of 0.7162763084156837 for training model and 0.3112032565518935 for testing model. It looks like the data overfits the training model and performs poorly on the testing model.
+With this model, I got an R^2 score of 0.8795859840297708 for training model and 0.6257468156768007 for testing model. It looks like the data significantly overfits the training model.
 
 ### Final Model
 
 Seeing that my baseline model overfit the training set, I decided to use a more robust model, Lasso. However, with this model, I got an R^2 of 0.21747907115757725 for the training set and 0.09967237171570309 for the testing set. Right now, the model significantly underfits the data. 
 
-Instead, I just decied to keep my original model, and add more features by transforming numeric columns with StandardScaler and QuantileTransformer. I also decided to use Grid Search for choosing the best hyperparameters and K-Cross Fold Validation to
+Instead, I just decied to keep my original model, and add more features by transforming numeric columns with StandardScaler and QuantileTransformer. Got an R^2 of 0.8873545458888363 for training and 0.634079786232939 for testing dataset. This is a slight increase but the data still overfits, and the score is still not good enough. I knew this would be a problem from the beginning, since the Random Forest Regressor tend to overfit the randomness of the data.
+
+Moving on, I decided to use Grid Search for choosing the best hyperparameters and K-Cross Fold Validation to choose the right hyperparameters for my model. 
+
+| Hyperparamter | Values |
+|---------------|--------|
+| random_forest__n_estimators |  [100, 200, 300] |
+| random_forest__max_depth | [None, 10, 20] |
+| random_forest__max_features | ['auto', 'sqrt'] |
+
+`Best parameters found by grid search: {'random_forest__max_depth': 10, 'random_forest__max_features': 'auto', 'random_forest__n_estimators': 200}`
+
+`Best CV score: 0.03467264055112714`
+
+`Best Model Testing R^2 score: 0.6293495611491493`
+
+`Best Model Training R^2 score: 0.8494450788515325`
+
+My model has not improved a lot, but I think this is mostly due to the fact that the dataset without the missing values for demand loss is pretty small, which makes the validation sets a little too small to evaluate.
+
+### Fairness Model
+
+
 
 
