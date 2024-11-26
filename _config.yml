@@ -38,7 +38,7 @@ title:                 Major Power Outages
 tagline:               DSC80 Project at UCSD
 
 # A list of keywords for your blog
-keywords:              []
+# keywords:              []
 
 # A (square) logo for your site.
 # If provided, it will be shown at the top of the sidebar.
@@ -53,22 +53,22 @@ author:
   # # Used by `jekyll-seo-tag`:
   # twitter:             <username>
 
-# Add links to the sidebar.
-menu:
-  - title:             Documentation
-    url:               /docs/
-  - title:             About
-    url:               /about/
+## Add links to the sidebar.
+# menu:
+#   - title:             Documentation
+#     url:               /docs/
+#   - title:             About
+#     url:               /about/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
-legal:
-  - title:             LICENSE
-    url:               /LICENSE/
-  - title:             NOTICE
-    url:               /NOTICE/
-  - title:             CHANGELOG
-    url:               /CHANGELOG/
+# legal:
+#   - title:             LICENSE
+#     url:               /LICENSE/
+#   - title:             NOTICE
+#     url:               /NOTICE/
+#   - title:             CHANGELOG
+#     url:               /CHANGELOG/
 
 # This text will appear in a `<small>` tag in the footer of every page.
 # copyright:             © 2021. All rights reserved.
